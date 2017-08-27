@@ -28,6 +28,9 @@ public:
 	UFUNCTION(BluePrintCallable, Category = setup)
 	void SetTurretReference(UTankTurret* TurretToSet);
 
+	UFUNCTION(BluePrintCallable, Category = input)
+	void Fire();
+
 private:	
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
