@@ -4,7 +4,6 @@
 
 #include "CoreMinimal.h"
 #include "AIController.h"
-#include "Engine/World.h"
 #include "TankAIController.generated.h"
 
 class ATank;
@@ -22,10 +21,6 @@ public:
 
 private:
 	virtual void BeginPlay() override; // needs to be public if I want to inherit
-
-	ATank* GetControlledTank() const;
-
-	ATank* GetPlayerTank() const;
 
 };
 
