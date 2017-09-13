@@ -22,5 +22,7 @@ public:
 private:
 	virtual void BeginPlay() override; // needs to be public if I want to inherit
 
+	float AcceptanceRadius = 3000;
+
 };
 
