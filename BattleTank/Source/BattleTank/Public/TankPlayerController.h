@@ -7,7 +7,7 @@
 #include "GameFramework/PlayerController.h"
 #include "TankPlayerController.generated.h" // Must be last include
 
-class ATank;
+class UTankAimingComponent;
 
 /**
  * 
@@ -18,8 +18,6 @@ class BATTLETANK_API ATankPlayerController : public APlayerController
 	GENERATED_BODY()
 	
 public:
-	ATank* GetControlledTank() const;
-	
 	virtual void BeginPlay() override;
 	
 	virtual void Tick(float DeltaTime) override;
@@ -41,4 +39,9 @@ private:
 
 	UPROPERTY(EditAnywhere)
 	float LineTraceRange = 1000000;
+
+protected:
+	UFUNCTION(BlueprintImplementableEvent, Category = "Setup")
+		void FoundAimingComponent(UTankAimingComponent* AimCompRef);
+
 };

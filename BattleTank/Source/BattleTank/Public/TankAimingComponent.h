@@ -7,8 +7,17 @@
 #include "Kismet/GameplayStatics.h" 
 #include "TankAimingComponent.generated.h"
 
+UENUM() 
+enum class EFiringStatus : uint8
+{
+	Reloading,
+	Aiming,
+	Locked
+};
+
 class UTankBarrel;
 class UTankTurret;
+class AProjectile;
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class BATTLETANK_API UTankAimingComponent : public UActorComponent
@@ -16,23 +25,39 @@ class BATTLETANK_API UTankAimingComponent : public UActorComponent
 	GENERATED_BODY()
 
 protected:
+	UPROPERTY(BlueprintReadOnly, Category = "State")
+	EFiringStatus FiringState = EFiringStatus::Reloading;
 
 public:	
-	void SetBarrelReference(UTankBarrel* BarrelToSet);
+	void AimAt(FVector OutHitLocation);
 
-	void SetTurretReference(UTankTurret* TurretToSet);
+	UFUNCTION(BluePrintCallable, Category = input)
+	void Fire();
 
-	void AimAt(FVector OutHitLocation, float LaunchSpeed);
-	
-	// Sets default values for this component's properties
-	UTankAimingComponent();
+	UFUNCTION(BluePrintCallable, Category = Setup)
+	void Initialize(UTankBarrel* BarrelToSet, UTankTurret* TurretToSet);
 
 private:
 	UTankBarrel* Barrel = nullptr;
 
 	UTankTurret* Turret = nullptr;
 
+	UTankAimingComponent();
+
+	UPROPERTY(EditAnywhere, Category = Setup)
+	TSubclassOf<AProjectile> ProjectileBlueprint;
+
+	UPROPERTY(EditAnywhere, Category = Firing)
+	float LaunchSpeed = 100000.0f;
+
 	void MoveBarrelTowards(FVector AimDirection);
 
 	void RotateTurretTowards(FVector AimDirection);
+
+	double LastFireTime = 0;
+
+	UPROPERTY(EditAnywhere, Category = Firing)
+	float ReloadTimeInSeconds = 3;
+
+
 };
