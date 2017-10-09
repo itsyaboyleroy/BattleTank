@@ -8,7 +8,7 @@
 #include "TankAimingComponent.generated.h"
 
 UENUM() 
-enum class EFiringStatus : uint8
+enum class EFiringState : uint8
 {
 	Reloading,
 	Aiming,
@@ -26,13 +26,15 @@ class BATTLETANK_API UTankAimingComponent : public UActorComponent
 
 protected:
 	UPROPERTY(BlueprintReadOnly, Category = "State")
-	EFiringStatus FiringState = EFiringStatus::Reloading;
+	EFiringState FiringState;
 
 public:	
 	void AimAt(FVector OutHitLocation);
 
 	UFUNCTION(BluePrintCallable, Category = input)
 	void Fire();
+
+	virtual void BeginPlay() override;
 
 	UFUNCTION(BluePrintCallable, Category = Setup)
 	void Initialize(UTankBarrel* BarrelToSet, UTankTurret* TurretToSet);
@@ -56,8 +58,12 @@ private:
 
 	double LastFireTime = 0;
 
+	bool IsBarrelMoving();
+
 	UPROPERTY(EditAnywhere, Category = Firing)
 	float ReloadTimeInSeconds = 3;
 
+	virtual void TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction *ThisTickFunction) override;
 
+	FVector AimDirection;
 };
