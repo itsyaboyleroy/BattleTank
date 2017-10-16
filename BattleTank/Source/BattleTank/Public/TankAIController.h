@@ -21,7 +21,9 @@ public:
 private:
 	virtual void BeginPlay() override; // needs to be public if I want to inherit
 
-	float AcceptanceRadius = 3000;
+protected:
+	UPROPERTY(EditDefaultsOnly, Category = Setup)
+	float AcceptanceRadius = 8000;
 
 };
 

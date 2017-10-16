@@ -19,8 +19,6 @@ void UTankTrack::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UP
 	DriveTrack();
 	ApplySidewaysForce();
 	CurrentThrottle = 0;
-
-	UE_LOG(LogTemp, Warning, TEXT("WORKING"))
 }
 
 void UTankTrack::DriveTrack()
@@ -33,7 +31,7 @@ void UTankTrack::DriveTrack()
 
 void UTankTrack::SetThrottle(float Throttle)
 {
-	CurrentThrottle = FMath::Clamp<float>(CurrentThrottle + Throttle, -1, 1);
+	CurrentThrottle = CurrentThrottle + Throttle;
 }
 
 void UTankTrack::ApplySidewaysForce()
