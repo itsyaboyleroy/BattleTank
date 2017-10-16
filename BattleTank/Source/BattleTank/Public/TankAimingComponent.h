@@ -40,6 +40,9 @@ public:
 	void Initialize(UTankBarrel* BarrelToSet, UTankTurret* TurretToSet);
 
 	EFiringState GetFiringState() const;
+	
+	UFUNCTION(BluePrintCallable, Category = Firing)
+	int GetRoundsLeft() const;
 
 private:
 	UTankBarrel* Barrel = nullptr;
@@ -65,7 +68,14 @@ private:
 	UPROPERTY(EditAnywhere, Category = Firing)
 	float ReloadTimeInSeconds = 3;
 
+	UPROPERTY(EditAnywhere, Category = Firing)
+	float TimeInbetweenShotsInSeconds = .5;
+
 	virtual void TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction *ThisTickFunction) override;
 
 	FVector AimDirection;
+
+	int RoundsLeft = 4;
+
+	double OutOfAmmoTime;
 };
