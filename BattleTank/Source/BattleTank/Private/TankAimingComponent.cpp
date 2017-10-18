@@ -97,7 +97,6 @@ void UTankAimingComponent::AimAt(FVector OutHitLocation)
 	{
 		AimDirection = OutLaunchVelocity.GetSafeNormal();
 		MoveBarrelTowards(AimDirection);
-		RotateTurretTowards(AimDirection);
 		//auto  Time = GetWorld()->GetTimeSeconds();
 		//UE_LOG(LogTemp, Warning, TEXT("%f: AimSolution found"), Time);
 	}
@@ -112,19 +111,12 @@ void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
 {
 	if (!ensure(Barrel) || !ensure(Turret)) { return; }
 
+	if (!ensure(Barrel) || !ensure(Turret)) { return; }
 	auto BarrelRotator = Barrel->GetForwardVector().Rotation();
 	auto AimAsRotator = AimDirection.Rotation();
 	auto DeltaRotator = AimAsRotator - BarrelRotator;
 
 	Barrel->Elevate(DeltaRotator.GetNormalized().Pitch);
-}
-
-void UTankAimingComponent::RotateTurretTowards(FVector AimDirection)
-{
-	auto TurretRotator = Turret->GetForwardVector().Rotation();
-	auto AimAsRotator = AimDirection.Rotation();
-	auto DeltaRotator = AimAsRotator - TurretRotator;
-
 	Turret->Rotate(DeltaRotator.GetNormalized().Yaw);
 }
 
@@ -148,5 +140,16 @@ void UTankAimingComponent::Fire()
 		{
 			OutOfAmmoTime = FPlatformTime::Seconds();
 		}
+	}
+}
+
+void UTankAimingComponent::Reload()
+{
+	if ((FiringState == EFiringState::Locked || FiringState == EFiringState::Aiming) && RoundsLeft < 4)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("LOL"))
+		OutOfAmmoTime = FPlatformTime::Seconds();
+		RoundsLeft = 0;
+
 	}
 }

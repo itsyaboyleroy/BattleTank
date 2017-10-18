@@ -41,6 +41,9 @@ public:
 
 	EFiringState GetFiringState() const;
 	
+	UFUNCTION(BluePrintCallable, Category = Input)
+	void Reload();
+
 	UFUNCTION(BluePrintCallable, Category = Firing)
 	int GetRoundsLeft() const;
 
@@ -59,8 +62,6 @@ private:
 
 	void MoveBarrelTowards(FVector AimDirection);
 
-	void RotateTurretTowards(FVector AimDirection);
-
 	double LastFireTime = 0;
 
 	bool IsBarrelMoving();
@@ -77,5 +78,5 @@ private:
 
 	int RoundsLeft = 4;
 
-	double OutOfAmmoTime;
+	float OutOfAmmoTime;
 };
