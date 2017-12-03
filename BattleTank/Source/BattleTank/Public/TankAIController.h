@@ -21,6 +21,11 @@ public:
 private:
 	virtual void BeginPlay() override; // needs to be public if I want to inherit
 
+	virtual void SetPawn(APawn* InPawn) override;
+
+	UFUNCTION()
+	void OnPossessedTankDeath();
+
 protected:
 	UPROPERTY(EditDefaultsOnly, Category = Setup)
 	float AcceptanceRadius = 8000;
